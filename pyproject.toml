@@ -1,16 +1,16 @@
 [tool.poetry]
-name = "spider"
+name = "pndl"
 version = "0.1.0"
-description = ""
+description = "Simple PhysioNet crawler & downloader"
 authors = ["PuzzleMoon <32855965+puzzlemoondev@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-beautifulsoup4 = "^4.10.0"
-requests = "^2.27.0"
+aria2p = "^0.11.1"
+lxml = "^4.7.1"
 
-[tool.poetry.dev-dependencies]
-jupyterlab = "^3.2.5"
+[tool.poetry.scripts]
+pndl = "pndl.cli:main"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
