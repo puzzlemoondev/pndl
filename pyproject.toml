@@ -8,6 +8,7 @@ authors = ["PuzzleMoon <32855965+puzzlemoondev@users.noreply.github.com>"]
 python = "^3.10"
 aria2p = "^0.11.1"
 lxml = "^4.7.1"
+requests = "^2.27.1"
 
 [tool.poetry.scripts]
 pndl = "pndl.cli:main"

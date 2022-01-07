@@ -1,4 +1,4 @@
-import subprocess
+import requests
 
 from itertools import groupby
 from lxml import html
@@ -29,14 +29,28 @@ class LinkIterator:
             yield from self._get_links(directory_url)
 
     def _request(self, url: str):
-        command = f'wget -qO- {url}'
+        headers = None
 
-        for key, value in self.options.items():
-            command += f' --{key} "{value}"'
+        if (header := self.options.get('header')) and (header_dict := LinkIterator._convert_header_to_dict(header)):
+            headers = header_dict
 
-        output = subprocess.run(command, shell=True, capture_output=True)
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
 
-        return output.stdout
+        return response.content
+
+    @staticmethod
+    def _convert_header_to_dict(header: str):
+        header_dict = {}
+
+        for line in header.split('\n'):
+            if line.startswith(('GET', 'POST')):
+                continue
+            if ':' in line:
+                key, value = map(str.strip, line.split(':'))
+                header_dict[key] = value
+
+        return header_dict
 
     @staticmethod
     def _partition_directories(paths: iter):
